@@ -1,3 +1,7 @@
+This api let you fetch the movie related data using following endpoints. Puppeteer library is used for web scraping on 
+'imdb official webapp'. (for educational purpose).
+
+
 there are 4 endpoints of this api:
 
 http://localhost:5000/api/movies
