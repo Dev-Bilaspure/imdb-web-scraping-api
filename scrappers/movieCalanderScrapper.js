@@ -44,16 +44,16 @@ const scrapperMethod = async(url, region) => {
                 console.log(error);
             }
         }
-        arr.push({region, date, movies});
+        arr.push({movies,date,region});
     }
     browser.close();
 }
 const movieCalanderScrapper = async() => {
-    let url = `https://www.imdb.com/calendar?region=in`;
-    await scrapperMethod(url, 'in');
-
-    url = `https://www.imdb.com/calendar?region=us`;
+    let url = `https://www.imdb.com/calendar?region=us`;
     await scrapperMethod(url, 'us');
+
+    url = `https://www.imdb.com/calendar?region=in`;
+    await scrapperMethod(url, 'in');
 
     return(arr);
 
