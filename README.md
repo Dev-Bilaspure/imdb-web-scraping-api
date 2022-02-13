@@ -21,3 +21,8 @@ http://localhost:5000/api/movies
     4) /title/:movietitle  (for example: /title/free+guy  or /title/spiderman or title/gangs+of+wasseypur)
             => movie title as parameter.
             => top details of 1 to 3 movies related to the search query('movietitle').
+
+
+
+// FOR PUPPETEER ERROR ON HEROKU 
+https://stackoverflow.com/questions/52225461/puppeteer-unable-to-run-on-heroku
