@@ -11,75 +11,93 @@ app.use(express.json())
 dotenv.config();
 app.use(cors());
 
+const PORT = process.env.PORT || 5000
+
 let arr = []
 app.get('/api/movies/popular', async(req,res) => {
-    try {
-        console.log('waiting...');
-        await mostPopularScrapper().then(resArray =>{
-            // console.log(resArray);
-            arr=resArray;
-        })
-    } catch(error) {
-        console.log(error);
-    }
-    let status = 'error'
-    if(arr.length)
-        status = 'success';
-    res.json({status, arr, totalItems: arr.length});
+  try {
+    console.log('waiting...');
+    await mostPopularScrapper().then(resArray =>{
+      arr=resArray;
+      res.json({status: 'success', arr, totalItems: arr.length});
+    }).catch(err => {
+      console.log(err);
+      res.json({status: 'error', arr, totalItems: arr.length});
+    })
+  } catch(error) {
+    console.log(error);
+    res.json({status: 'error', arr, totalItems: arr.length});
+  }
+  // let status = 'error'
+  // if(arr.length)
+  //   status = 'success';
+  // res.json({status, arr, totalItems: arr.length});
 });
 
 app.get('/api/movies/upcomings', async(req, res) => {
-    try {
-        console.log('waiting...');
-        await movieCalanderScrapper().then(resArray => {
-            // console.log(resArray);
-            arr=resArray;
-        })
-    }catch(error) {
-        console.log(error);
-    }
-    let status = 'error'
-    if(arr.length)
-        status = 'success';
-    res.json({status, arr, totalItems: arr.length});
+  try {
+    console.log('waiting...');
+    await movieCalanderScrapper().then(resArray => {
+      arr=resArray;
+      res.json({status: 'success', arr, totalItems: arr.length});
+    }).catch(err => {
+      console.log(err);
+      res.json({status: 'error', arr, totalItems: arr.length});
+    })
+  }catch(error) {
+    console.log(error);
+    res.json({status: 'error', arr, totalItems: arr.length});
+  }
+  // let status = 'error'
+  // if(arr.length)
+  //   status = 'success';
+  // res.json({status, arr, totalItems: arr.length});
 });
 
 
 app.get('/api/movies/news', async(req, res) => {
     try {
-        console.log('waiting...');
-        await movieNewsScrapper().then(resArray => {
-            console.log(resArray);
-            arr = resArray;
-        })
+      console.log('waiting...');
+      await movieNewsScrapper().then(resArray => {
+        arr = resArray;
+        res.json({status: 'success', arr, totalItems: arr.length});
+      }).catch(err => {
+        console.log(err);
+        res.json({status: 'error', arr, totalItems: arr.length});
+      })
     } catch(error) {
         console.log(error);
+        res.json({status: 'error', arr, totalItems: arr.length});
     }
-    let status = 'error';
-    if(arr.length)
-        status = 'success';
-    res.json({status, arr, totalItems: arr.length});
+    // let status = 'error';
+    // if(arr.length)
+    //     status = 'success';
+    // res.json({status, arr, totalItems: arr.length});
 });
 
 app.get('/api/movies/title/:movietitle', async(req, res) => {  // if movie title have spaces then it must formated as: eg: 'bhoot+police'
-    try {
-        let { movietitle } = req.params;
-        if(movietitle.indexOf(' ')===-1) {
-            await seatchMovieScrapper(movietitle).then(resArray => {
-                console.log(resArray);
-                arr = resArray;
-            })
-        }
-    } catch(error) {
-        console.log(error);
+  try {
+    let { movietitle } = req.params;
+    if(movietitle.indexOf(' ')===-1) {
+      await seatchMovieScrapper(movietitle).then(resArray => {
+        arr = resArray;
+        res.json({status: 'success', arr, totalItems: arr.length});
+      }).catch(err => {
+        console.log(err);
+        res.json({status: 'err', arr, totalItems: arr.length});
+      })
     }
-    let status = 'error';
-    if(arr.length)
-        status = 'success';
-    res.json({status, arr, totalItems: arr.length});
+  } catch(error) {
+    console.log(error);
+    res.json({status: 'err', arr, totalItems: arr.length});
+  }
+  // let status = 'error';
+  // if(arr.length)
+  //   status = 'success';
+  // res.json({status, arr, totalItems: arr.length});
 })
 
-const PORT = 5000;
+
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}...`);
 })
